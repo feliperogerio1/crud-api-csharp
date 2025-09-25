@@ -16,10 +16,13 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSqlDatabase(builder.Configuration);
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 FluentMapper.Initialize(configure =>
 {
     configure.AddMap(new CustomerMap());
+    configure.AddMap(new ProductMap());
 
     configure.ForDommel();
 });

@@ -8,6 +8,7 @@ namespace CrudApi.Repositories;
 public class AppDbContext : DbContext
 {
     public DbSet<Customer> DbCustomer { get; set; }
+    public DbSet<Product> DbProduct { get; set; }
 
     private readonly IDbConnection _dbConnection;
 
@@ -27,5 +28,12 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Customer>().HasKey(c => c.Id);
         modelBuilder.Entity<Customer>()
             .Property(c => c.Name).HasColumnType("VARCHAR").HasMaxLength(100).IsRequired();
+
+        modelBuilder.Entity<Product>().ToTable("product");
+        modelBuilder.Entity<Product>().HasKey(p => p.Id);
+        modelBuilder.Entity<Product>()
+            .Property(p => p.Name).HasColumnType("VARCHAR").HasMaxLength(100).IsRequired();
+        modelBuilder.Entity<Product>()
+            .Property(c => c.Price).HasColumnType("DECIMAL(16,2)").IsRequired();
     }
 }
