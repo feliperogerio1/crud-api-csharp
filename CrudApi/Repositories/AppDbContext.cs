@@ -9,6 +9,7 @@ public class AppDbContext : DbContext
 {
     public DbSet<Customer> DbCustomer { get; set; }
     public DbSet<Product> DbProduct { get; set; }
+    public DbSet<Order> DbOrder { get; set; }
 
     private readonly IDbConnection _dbConnection;
 
@@ -35,5 +36,13 @@ public class AppDbContext : DbContext
             .Property(p => p.Name).HasColumnType("VARCHAR").HasMaxLength(100).IsRequired();
         modelBuilder.Entity<Product>()
             .Property(c => c.Price).HasColumnType("DECIMAL(16,2)").IsRequired();
+
+        modelBuilder.Entity<Order>().ToTable("order");
+        modelBuilder.Entity<Order>().HasKey(o => o.Id);
+        modelBuilder.Entity<Order>()
+            .Property(o => o.OrderDate).HasColumnType("DATETIME").IsRequired();
+        modelBuilder.Entity<Order>()
+            .Property(o => o.Total).HasColumnType("DECIMAL(16,2)").IsRequired();
+        modelBuilder.Entity<Order>().Property(o => o.CustomerId);
     }
 }

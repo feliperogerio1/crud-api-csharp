@@ -18,11 +18,14 @@ builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 FluentMapper.Initialize(configure =>
 {
     configure.AddMap(new CustomerMap());
     configure.AddMap(new ProductMap());
+    configure.AddMap(new OrderMap());
 
     configure.ForDommel();
 });
