@@ -49,14 +49,14 @@ public class OrderController : ControllerBase
         return Ok(result.Value.ToOrdersResponseDTO());
     }
 
-    [HttpGet("{id}/customer")]
-    public async Task<IActionResult> GetWithCustomer([FromRoute][Required] int id)
+    [HttpGet("{id}/details")]
+    public async Task<IActionResult> GetWithItems([FromRoute][Required] int id)
     {
-        var result = await _orderService.GetWithCustomer(id);
+        var result = await _orderService.GetWithItems(id);
         if (!result.IsSuccess)
             return UnprocessableEntity(result.Error);
 
-        return Ok(result.Value.ToOrderWithCustomerResponseDTO());
+        return Ok(result.Value.ToOrderWithItemsResponseDTO());
     }
 
     [HttpPut("{id}")]

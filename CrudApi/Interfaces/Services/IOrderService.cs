@@ -11,7 +11,7 @@ public interface IOrderService
 
     Task<Result<List<Order>>> Get(int pageNumber, int pageSize);
 
-    Task<Result<Order>> GetWithCustomer(int id);
+    Task<Result<Order>> GetWithItems(int id);
 
     Task<Result<Order>> Update(int id, Order order);
 

@@ -8,6 +8,7 @@ public class OrderRequestDTO
     public DateTime OrderDate { get; init; }
     public Decimal Total { get; init; }
     public int CustomerId { get; init; }
+    public List<OrderItem> OrderItems { get; init; } = new();
 }
 
 public class OrderResponseDTO
@@ -18,7 +19,8 @@ public class OrderResponseDTO
     public int CustomerId { get; init; }
 }
 
-public class OrderWithCustomerResponseDTO : OrderResponseDTO
+public class OrderWithItemsResponseDTO : OrderResponseDTO
 {
-    public Customer Customer { get; init; } = new(); 
+    public Customer Customer { get; init; } = new();
+    public List<OrderItem> OrderItems { get; init; } = new();
 }

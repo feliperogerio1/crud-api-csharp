@@ -23,6 +23,10 @@ public class OrderService : IOrderService
             return Result.Failure<Order>(resultCustomer.Error);
 
         order.Id = await _orderRepository.Insert(order);
+
+        order.OrderItems.ForEach(item => item.OrderId = order.Id);
+        await _orderRepository.InsertItems(order.OrderItems);
+
         return Result.Success(order);
     }
 
@@ -41,9 +45,9 @@ public class OrderService : IOrderService
         return Result.Success(orders);
     }
 
-    public async Task<Result<Order>> GetWithCustomer(int id)
+    public async Task<Result<Order>> GetWithItems(int id)
     {
-        var order = await _orderRepository.GetWithCustomer(id);
+        var order = await _orderRepository.GetWithItems(id);
         if (order is null)
             return Result.Failure<Order>("Order not found");
 
@@ -63,10 +67,14 @@ public class OrderService : IOrderService
         currentOrder.OrderDate = order.OrderDate;
         currentOrder.Total = order.Total;
         currentOrder.CustomerId = order.CustomerId;
+        currentOrder.OrderItems = order.OrderItems;
 
         var success = await _orderRepository.Update(currentOrder);
         if (!success)
             return Result.Failure<Order>("Update failed");
+
+        await _orderRepository.DeleteItems(currentOrder.Id);
+        await _orderRepository.InsertItems(currentOrder.OrderItems);
 
         return Result.Success(currentOrder);
     }
@@ -76,6 +84,8 @@ public class OrderService : IOrderService
         var currentOrder = await _orderRepository.Get(id);
         if (currentOrder is null)
             return Result.Failure<string>("Order not found");
+
+        await _orderRepository.DeleteItems(id);
 
         var success = await _orderRepository.Delete(currentOrder);
         if (!success)

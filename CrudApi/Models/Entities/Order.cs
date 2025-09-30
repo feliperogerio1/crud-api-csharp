@@ -14,5 +14,7 @@ public class Order
     #region Navigation properties
     [ForeignKey("CustomerId")]
     public Customer Customer { get; set; } = new();
+
+    public List<OrderItem> OrderItems { get; set; } = new();
     #endregion
 }

@@ -26,6 +26,7 @@ FluentMapper.Initialize(configure =>
     configure.AddMap(new CustomerMap());
     configure.AddMap(new ProductMap());
     configure.AddMap(new OrderMap());
+    configure.AddMap(new OrderItemMap());
 
     configure.ForDommel();
 });

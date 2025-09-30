@@ -10,6 +10,7 @@ public class AppDbContext : DbContext
     public DbSet<Customer> DbCustomer { get; set; }
     public DbSet<Product> DbProduct { get; set; }
     public DbSet<Order> DbOrder { get; set; }
+    public DbSet<OrderItem> DbOrderItem { get; set; }
 
     private readonly IDbConnection _dbConnection;
 
@@ -44,5 +45,19 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Order>()
             .Property(o => o.Total).HasColumnType("DECIMAL(16,2)").IsRequired();
         modelBuilder.Entity<Order>().Property(o => o.CustomerId);
+
+        modelBuilder.Entity<OrderItem>().ToTable("order_item");
+        modelBuilder.Entity<OrderItem>().HasKey(oi => new { oi.OrderId, oi.ProductId });
+
+        modelBuilder.Entity<OrderItem>()
+            .HasOne(oi => oi.Order)
+            .WithMany(o => o.OrderItems)
+            .HasForeignKey(oi => oi.OrderId);
+        modelBuilder.Entity<OrderItem>()
+            .HasOne(oi => oi.Product)
+            .WithMany(p => p.OrderItems)
+            .HasForeignKey(oi => oi.ProductId);
+        modelBuilder.Entity<OrderItem>().Property(o => o.Quantity);
+        modelBuilder.Entity<OrderItem>().Property(o => o.SubTotal);
     }
 }

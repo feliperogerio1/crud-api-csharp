@@ -12,7 +12,8 @@ public static class OrderMapper
             Id = orderDTO.Id,
             OrderDate = orderDTO.OrderDate,
             Total = orderDTO.Total,
-            CustomerId = orderDTO.CustomerId
+            CustomerId = orderDTO.CustomerId,
+            OrderItems = orderDTO.OrderItems
         };
     }
 
@@ -32,7 +33,7 @@ public static class OrderMapper
         return orders.Select(ToOrderResponseDTO).ToList();
     }
 
-    public static OrderWithCustomerResponseDTO ToOrderWithCustomerResponseDTO(this Order order)
+    public static OrderWithItemsResponseDTO ToOrderWithItemsResponseDTO(this Order order)
     {
         return new()
         {
@@ -40,7 +41,8 @@ public static class OrderMapper
             OrderDate = order.OrderDate,
             Total = order.Total,
             CustomerId = order.CustomerId,
-            Customer = order.Customer
+            Customer = order.Customer,
+            OrderItems = order.OrderItems
         };
     }
 }
